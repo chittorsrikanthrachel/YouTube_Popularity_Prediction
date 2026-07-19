@@ -1,0 +1,674 @@
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+}
+
+/* Modal container */
+#chatbotModal {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.5s ease;
+	background: rgba(0,0,0,0.5); /* dim background */
+    z-index: 9999;  
+}
+
+/* Chatbot box */
+.chatbot-box {
+  display: flex;
+  flex-direction: column;
+  width: 420px;         /* broader */
+  max-height: 700px;    /* smaller height */
+  border-radius: 12px;
+  padding: 5px;  
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.chatbot-header {
+  flex-shrink: 0;
+  text-align: center;
+  padding: 0;              /* important */
+  position: relative;
+  z-index: 10;
+  background: white;       /* keep white */
+}
+
+
+.chatbot-title {
+    margin: 0 0 6px 0;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    letter-spacing: 0.5px;
+}
+
+
+.chatbot-body {
+  flex: 1;              /* fills remaining space */
+  overflow-y: auto;     /* scrollable */
+  padding: 5px;
+  height: 500px;
+  flex-direction: column;
+}
+
+.chatbot-footer {
+  flex-shrink: 0;       /* fixed size */
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.chatbot-body .options {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+}
+
+.chatbot-body .options button {
+  width: 80%;
+  background: #ff4d4d;
+  color: white;
+  padding: 8px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.chatbot-scrollable {
+    overflow-y: auto;        /* scrollable chat + options */
+    flex: 1;                 /* fill remaining height */
+    padding-right: 5px;      /* avoid scrollbar overlap */
+}
+/* Header image */
+.header-img {
+    width: 130px;
+    height: auto;
+    display: block;
+    margin: 10px auto 6px;
+}
+/* Minimized chatbot */
+.minimized-chatbot {
+    width: 120px !important;
+    height: 120px !important;
+    border-radius: 50%;
+    padding: 0 !important;
+    overflow: hidden;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Hide header, body, footer */
+.minimized-chatbot .chatbot-header,
+.minimized-chatbot .chatbot-body,
+.minimized-chatbot .chatbot-footer {
+    display: none !important;
+}
+
+/* Circular image clickable to maximize */
+.minimized-chatbot .header-img {
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+}
+
+/* Full chatbot heading with minimize button */
+.chatbot-heading #toggleBtn {
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    background: white;
+    color: #E53935;
+    border: none;
+    border-radius: 3px;
+    padding: 2px 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+/* Chat area */
+#chat {
+    margin: 10px 0;
+}
+
+/* Message layout */
+.msg {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 14px;
+}
+
+.msg img {
+    width: 32px;
+    margin-right: 10px;
+}
+
+.msg p {
+    margin: 0;
+}
+
+/* Controls */
+.controls {
+    display: flex;
+    gap: 5px;
+}
+
+
+input {
+    flex: 1;
+    padding: 8px;
+}
+
+button {
+    padding: 8px 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+	background: #E53935;  /* red like YouTube */
+	color:white;
+}
+
+/* Options */
+.options {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    gap: 5px;
+	align-items: center;
+}
+
+.options button {
+    width: 70%;
+    background:#E53935;
+    color: white;
+    padding: 10px;
+    border-radius: 6px;
+	text-align: center;  
+}
+.mic-btn {
+    background: white;
+    color: white;       /* mic icon color */
+    font-size: 18px;
+	flex-shrink: 0;
+}
+
+
+/* Small mode */
+.small {
+    width: 400px;
+    max-height: 450px; /* limit the chat height */
+    padding: 15px;    
+    border-radius: 12px;
+	display: flex;
+    flex-direction: column;
+
+}
+
+/* Start button */
+#startDiv button {
+    width: 100%;
+    padding: 12px;
+    background: #E53935;
+    color: white;
+    font-size: 16px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.chatbot-title-bar {
+    background: #E53935;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 6px 10px;      /* NARROW BAR */
+    text-align: center;
+    position: relative;
+    border-radius: 10px 10px 0 0;
+}
+
+/* Minimize button inside red bar */
+.chatbot-title-bar #toggleBtn {
+    position: absolute;
+    top: 4px;
+    right: 8px;
+    background: white;
+    color: #E53935;
+    border: none;
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.chatbot-image-box {
+    background: white;
+    padding: 8px 0;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+
+.chatbot-heading {
+    background: #E53935;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px;      /* rectangle height */
+    text-align: center;
+    position: relative;
+
+    /* FORCE RECTANGLE */
+    border-radius: 5px;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+/* Minimize button inside red strip */
+.chatbot-heading #toggleBtn {
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    background: white;
+    color: #E53935;
+    border: none;
+    border-radius: 3px;
+    padding: 2px 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+					
+</style>
+</head>
+
+<body>
+
+<div id="chatbotModal">
+	<div class="chatbot-box small" id="chatbotBox">
+
+    <!-- HEADER (fixed) -->
+		<div class="chatbot-header">
+
+			<!-- RED HEADING BOX (TEXT ONLY) -->
+			<div class="chatbot-heading">
+				YOUTUBE POPULARITY PREDICTION
+				<button id="toggleBtn" onclick="toggleChatbot()">–</button>
+
+			</div>
+
+		</div>
+		<img class="header-img" src="{{ url_for('static', filename='bot8.png') }}">
+		<!-- Minimize button -->
+
+
+
+		<!-- BODY (scrollable chat + options) -->
+		<div class="chatbot-body chatbot-scrollable">
+			<div id="chat"></div>
+			<div class="options" id="options">
+				<button onclick="handleResponse('views prediction')">👁️ Views Prediction</button>
+				<button onclick="handleResponse('likes prediction')">👍 Likes Prediction</button>
+				<button onclick="handleResponse('hashtag recommendation')">#️⃣ Hashtags Recommendation</button>
+				<button onclick="handleResponse('show insights')">📊 Show Insights</button>
+			</div>
+		</div>
+		
+		<!-- FOOTER (fixed input / start button / mic) -->
+		<div class="chatbot-footer">
+		<!-- START CHAT BUTTON -->
+			<div id="startDiv">
+				<button onclick="startChat()">Start Chat</button>
+			</div>
+
+		<!-- FOOTER (fixed input + send + mic) -->
+			<div class="controls" id="controls" style="display:none;">
+				<input id="userInput" placeholder="Type here">
+				<button onclick="sendText()">Send</button>
+				<button class="mic-btn" onclick="startVoice()"><img src="{{ url_for('static', filename='phone.png') }}" alt="Mic"></button>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+
+
+<script>
+let stage = Number(sessionStorage.getItem("chatStage")) || 0;
+let userName = sessionStorage.getItem("chatUserName") || "";
+
+// Speak with callback
+function speak(text, callback) {
+    let msg = new SpeechSynthesisUtterance(text);
+    msg.lang = "en-US";
+    if (callback) msg.onend = callback;
+    window.speechSynthesis.speak(msg);
+}
+
+// Add chat message
+function addMessage(type, text) {
+    let chat = document.getElementById("chat");
+    let img = type === "bot"
+        ? "{{ url_for('static', filename='bot8.png') }}"
+        : "{{ url_for('static', filename='user1.webp') }}";
+
+    // Add message
+    chat.innerHTML += `
+        <div class="msg">
+            <img src="${img}">
+            <p>${text}</p>
+        </div>
+    `;
+	 // SAVE CHAT
+    sessionStorage.setItem("chatHTML", chat.innerHTML);
+
+    // Scroll to latest message inside the scrollable div
+    const scrollable = document.querySelector('.chatbot-scrollable');
+    if(scrollable) {
+        scrollable.scrollTop = scrollable.scrollHeight;
+    }
+}
+
+// Start chat
+function startChat() {
+    sessionStorage.setItem("chatStarted", "yes");
+	document.body.style.overflow = 'hidden';
+
+    document.getElementById("startDiv").style.display = "none";
+    document.getElementById("controls").style.display = "flex";
+    document.getElementById("options").style.display = "none";
+
+    const welcomeText = "Welcome! I’m YouTube's Assistant. Let’s predict your channel's views & likes, find trending hashtags, and peek into your channel’s insights!";
+    addMessage("bot", welcomeText);
+
+    speak(welcomeText, () => {
+        const askNameText = "May I know your name?";
+        addMessage("bot", askNameText);
+        speak(askNameText);
+        stage = 1;
+        sessionStorage.setItem("chatStage", stage);
+    });
+}
+
+
+// Handle user response
+function handleResponse(text) {
+    const msg = text.toLowerCase();
+
+    // STAGE 1 – Name
+    if (stage === 1) {
+		userName = text;
+		addMessage("bot", `Hello ${userName}! Nice to meet you.`);
+
+		stage = 2;
+		sessionStorage.setItem("chatStage", stage);
+		sessionStorage.setItem("chatUserName", userName);
+		sessionStorage.setItem("chatOptions", "shown");
+
+		speak(`Hello ${userName}! Nice to meet you.`, () => {
+			shrinkChatbotKeepMessages();
+		});
+
+		return;
+	}
+
+
+    // STAGE 2 – Views Prediction intent
+    if (
+        msg.includes("view") ||
+        msg.includes("views") ||
+        msg.includes("predict views") ||
+        msg.includes("views prediction")
+    ) {
+        addMessage("bot", "Opening Views Prediction Form.");
+        speak("Opening views prediction form.");
+		
+		document.getElementById("options").style.display = "flex";
+
+
+        setTimeout(() => {
+            window.location.href = "{{ url_for('view_form') }}";
+        }, 1200);
+
+        return;
+    }
+	
+	// STAGE 3 – Likes Prediction intent
+	if (
+		msg.includes("like") ||
+		msg.includes("likes") ||
+		msg.includes("predict likes") ||
+		msg.includes("likes prediction")
+	) {
+		addMessage("bot", "Opening Likes Prediction Form.");
+		speak("Opening likes prediction form.");
+		
+		document.getElementById("options").style.display = "flex";
+
+
+		setTimeout(() => {
+			window.location.href = "{{ url_for('like_form') }}";
+		}, 1200);
+
+		return;
+	}
+	
+	// STAGE 4 – Hashtag Recommendation intent
+	if (
+		msg.includes("hashtag") ||
+		msg.includes("hashtags") ||
+		msg.includes("tag") ||
+		msg.includes("hashtags recommendation")
+	) {
+		addMessage("bot", "Opening Hashtag Recommendation.");
+		speak("Opening Hashtag Recommendation Form.");
+		
+		document.getElementById("options").style.display = "flex";
+
+
+		setTimeout(() => {
+			window.location.href = "{{ url_for('recommend_form') }}";
+		}, 1200);
+
+		return;
+	}
+	
+	// STAGE 5 – Insights intent
+	if (
+		msg.includes("insight") ||
+		msg.includes("insights") ||
+		msg.includes("analysis") ||
+		msg.includes("show insights")
+	) {
+		addMessage("bot", "Opening Channel Insights.");
+		speak("Opening channel insights.");
+		
+		document.getElementById("options").style.display = "flex";
+
+
+		setTimeout(() => {
+			window.location.href = "{{ url_for('show_insights') }}";
+		}, 1200);
+
+		return;
+	}
+	
+	addMessage(
+    "bot",
+    "Please say Views Prediction, Likes Prediction, Hashtag Recommendation, or Show Insights."
+	);
+	speak(
+		"Please say Views Prediction, Likes Prediction, Hashtags Recommendation, or Show Insights."
+	);
+
+
+}
+
+
+// Shrink chatbot while keeping messages
+function shrinkChatbotKeepMessages() {
+    const box = document.getElementById("chatbotBox");
+    const modal = document.getElementById("chatbotModal");
+
+    box.classList.add("small");
+    modal.style.alignItems = "flex-end";
+    modal.style.justifyContent = "flex-end";
+    modal.style.padding = "20px";
+
+    // SHOW OPTIONS ONLY IF STAGE >= 2
+    // SHOW OPTIONS ONLY IF STAGE >= 2
+	if (stage >= 2) {
+		const optionsDiv = document.getElementById("options");
+		optionsDiv.style.display = "flex";
+
+		// Speak options after a small delay to ensure DOM updates
+		setTimeout(() => {
+			speak("Please choose one option: Views Prediction, Likes Prediction, Hashtag Recommendation, or Show Insights.");
+		}, 300);
+		// UNBLOCK WEBSITE now
+        document.body.style.overflow = 'auto';
+		
+		// REMOVE overlay background
+		document.getElementById("chatbotModal").style.background = "transparent";
+		
+		// **Allow clicks on the underlying page**
+		modal.style.pointerEvents = "none"
+		
+		// Keep the chatbot box clickable
+		const box = document.getElementById("chatbotBox");
+		box.style.pointerEvents = "auto";
+	} else {
+		document.getElementById("options").style.display = "none";
+	}
+
+
+    const scrollable = document.querySelector(".chatbot-scrollable");
+    if (scrollable) scrollable.scrollTop = scrollable.scrollHeight;
+}
+
+
+// Text input
+function sendText() {
+    let input = document.getElementById("userInput");
+    let text = input.value.trim();
+    if (!text) return;
+
+    addMessage("user", text);
+    input.value = "";
+    handleResponse(text);
+}
+
+// Voice input
+function startVoice() {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let rec = new SR();
+    rec.lang = "en-US";
+    rec.start();
+
+    rec.onresult = e => {
+        let voice = e.results[0][0].transcript;
+		addMessage("user", voice);
+
+		// Scroll the scrollable body
+		const scrollable = document.querySelector('.chatbot-scrollable');
+		scrollable.scrollTop = scrollable.scrollHeight;
+
+		handleResponse(voice);
+
+    };
+}
+
+let minimized = false;
+
+function toggleChatbot() {
+    const box = document.getElementById("chatbotBox");
+
+    if (!minimized) {
+        box.classList.add("minimized-chatbot");
+        minimized = true;
+
+        // SAVE MINIMIZED STATE
+        sessionStorage.setItem("chatMinimized", "yes");
+
+        // make image clickable to restore
+        const img = document.querySelector(".header-img");
+        img.onclick = () => {
+            box.classList.remove("minimized-chatbot");
+            minimized = false;
+            sessionStorage.setItem("chatMinimized", "no");
+        };
+    }
+}
+
+
+
+window.onload = () => {
+    const chat = document.getElementById("chat");
+    const options = document.getElementById("options");
+    const startDiv = document.getElementById("startDiv");
+    const controls = document.getElementById("controls");
+    const box = document.getElementById("chatbotBox");
+    const img = document.querySelector(".header-img");
+
+    const chatStarted = sessionStorage.getItem("chatStarted");
+
+    // Restore chat messages
+    const savedChat = sessionStorage.getItem("chatHTML");
+    if (savedChat) chat.innerHTML = savedChat;
+
+    // Restore stage and user
+    stage = Number(sessionStorage.getItem("chatStage")) || 0;
+    userName = sessionStorage.getItem("chatUserName") || "";
+
+    if (chatStarted === "yes") {
+        startDiv.style.display = "none";
+        controls.style.display = "flex";
+
+        const optionState = sessionStorage.getItem("chatOptions");
+        options.style.display = optionState === "shown" ? "flex" : "none";
+
+        if (stage >= 2) {
+            shrinkChatbotKeepMessages(); // shows options AND speaks
+        }
+    } else {
+        startDiv.style.display = "block";
+        controls.style.display = "none";
+        options.style.display = "none";
+    }
+
+    // Restore minimized state
+    const wasMinimized = sessionStorage.getItem("chatMinimized") === "yes";
+    if (wasMinimized) {
+        box.classList.add("minimized-chatbot");
+        minimized = true;
+
+        // Make image clickable to maximize
+        img.style.cursor = "pointer";
+        img.onclick = () => {
+            box.classList.remove("minimized-chatbot");
+            minimized = false;
+            sessionStorage.setItem("chatMinimized", "no");
+        };
+    }
+
+    // Scroll to latest message
+    const scrollable = document.querySelector(".chatbot-scrollable");
+    if (scrollable) scrollable.scrollTop = scrollable.scrollHeight;
+};
+
+
+
+
+</script>
+

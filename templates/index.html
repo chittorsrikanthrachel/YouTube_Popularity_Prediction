@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>YOUTUBE POPULARITY PREDICTION A MACHINE LEARNING DRIVEN APPROACH</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", sans-serif; }
+        body { background: #ffffff; color: #222; }
+
+        /* Navbar */
+        .navbar {
+            width: 100%;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffff;
+            border-bottom: 1px solid #ddd;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .logo { display: flex; align-items: center; font-size: 26px; font-weight: bold; color: #E53935; gap: 10px; }
+        .logo img { width: 50px; height: 50px; }
+        .nav-links { display: flex; list-style: none; gap: 25px; }
+        .nav-links a { text-decoration: none; font-size: 16px; color: #444; transition: 0.3s; }
+        .nav-links a:hover { color: #E53935; }
+
+        /* Hero Section */
+        .hero { width: 100%; height: 100vh; overflow: hidden;position:relative }
+        .hero-img { width: 100%; height: 100%; object-fit: cover; display: block;position:absolute; }
+
+        /* Features Section */
+        .features { text-align: center; padding: 50px 20px; }
+        .section-title { font-size: 32px; margin-bottom: 30px; color: #E53935; font-weight: 600; }
+        .cards { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; }
+        .card { flex: 0 0 250px; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 6px 18px rgba(0,0,0,0.06); text-align: center; transition: transform 0.25s; }
+        .card:hover { transform: translateY(-8px); }
+        .card-icon { font-size: 42px; margin-bottom: 12px; }
+        .card h3 { margin-bottom: 8px; font-size: 18px; }
+        .card p { font-size: 14px; color: #555; }
+        .card-btn { margin-top: 15px; background: #E53935; border: none; color: white; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+
+        /* Slider Section (unchanged) */
+        .image-slider-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 28px auto;
+            position: relative;
+        }
+        .image-slider {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+		.logo .title {
+			font-size: 20px;
+			font-weight: bold;
+		}
+
+		.logo .subtitle {
+			font-size: 15px;
+			font-weight: 700;
+			color: #666;
+		}
+
+        .image-slider::-webkit-scrollbar { display: none; }
+        .image-slider { -ms-overflow-style: none; scrollbar-width: none; }
+        .slide {
+            flex: 0 0 100%;
+            width: 100%;
+            height: 500px;
+            scroll-snap-align: center;
+            position: relative;
+        }
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            border-radius: 12px;
+        }
+        .dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ddd;
+            cursor: pointer;
+            transition: transform .18s, background .18s;
+        }
+        .dot.active { background: #E53935; transform: scale(1.2); }
+
+        /* Analytics / How / About */
+        .analysis, .how, .about { display:flex; flex-wrap:wrap; justify-content:center;align-items:flex-start; gap:30px; padding:50px 20px; }
+        .analysis { background:#ffffff; }
+        .analysis img, .how img { width: 520px; max-width: 100%; border-radius:10px; }
+        .about img { width:420px; max-width:100%; border-radius:10px; }
+        .analysis-text, .how-text, .about-text { max-width: 520px; }
+        .analysis-text h2, .how-text h2, .about-text h2 { color:#E53935; margin-bottom:12px; }
+
+        /* Footer */
+        .footer { padding: 20px; text-align: center; background: #111; color: white; margin-top: 40px; }
+
+        /* Responsive */
+        @media (max-width:900px) { .slide { height: 300px; } .hero { height: 40vh; } }
+        @media (max-width:600px) { .slide { height: 220px; } .card { flex: 0 0 90%; max-width: 420px; } .hero { height: 35vh; } }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="YouTube Logo">
+            <span>YOUTUBE POPULARITY PREDICTION<br><span class="subtitle">A Machine Learning Driven Approach</span>
+			</span>
+
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('view_form') }}">Views Prediction</a></li>
+            <li><a href="{{ url_for('like_form') }}">Likes Prediction</a></li>
+            <li><a href="{{ url_for('recommend_form') }}">HashTags Recommendation</a></li>
+			<li><a href="{{ url_for('show_insights') }}">Show Insights</a></li>
+
+        </ul>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <img src="{{ url_for('static', filename='image2.avif') }}" class="hero-img" alt="YouTube Banner">
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <h2 class="section-title">Our Features</h2>
+        <div class="cards">
+            <div class="card">
+                <div class="card-icon">👁️</div>
+                <h3>Views Prediction</h3>
+                <p>Predict video views using subscribers, upload time and engagement.</p>
+                <button class="card-btn" onclick="window.location.href='{{ url_for("view_form") }}'">Predict Views</button>
+            </div>
+            <div class="card">
+                <div class="card-icon">👍</div>
+                <h3>Likes Prediction</h3>
+                <p>Estimate likes based on views, comments and <br>audience behavior</p>
+                <button class="card-btn" onclick="window.location.href='{{ url_for('like_form') }}'">Predict Likes</button>
+            </div>
+            <div class="card">
+                <div class="card-icon">#️⃣</div>
+                <h3>HashTag Recommendation</h3>
+                <p>Automatically generate high-impact tags for discovery.</p>
+                <button class="card-btn" onclick="window.location.href='{{ url_for('recommend_form') }}'">Recommend HashTags</button>
+            </div>
+            <div class="card">
+                <div class="card-icon">📊</div>
+                <h3>Show Insights</h3>
+                <p>Closely Monitor,Track performance patterns and growth over time.</p>
+                <button class="card-btn" onclick="window.location.href='{{ url_for('show_insights') }}'">Show Insights</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Image Slider (unchanged) -->
+    <div class="image-slider-container" id="sliderWrap">
+        <div class="image-slider" id="imageSlider" aria-label="Image slider">
+            <div class="slide"><img src="{{ url_for('static', filename='image4.png') }}" class="hero-img" alt="YouTube Banner"></div>
+            <div class="slide"><img src="{{ url_for('static', filename='image5.png') }}" class="hero-img" alt="YouTube Banner">></div>
+            <div class="slide"><img src="{{ url_for('static', filename='image7.png') }}" class="hero-img" alt="YouTube Banner">></div>
+            <div class="slide"><img src="{{ url_for('static', filename='image9.png') }}" class="hero-img" alt="YouTube Banner">></div>
+            <div class="slide"><img src="{{ url_for('static', filename='image8.png') }}" class="hero-img" alt="YouTube Banner">></div>
+        </div>
+
+        <div class="dots" id="sliderDots" role="tablist" aria-label="Slide dots">
+            <div class="dot active" data-index="0" role="tab" aria-selected="true" aria-label="Slide 1"></div>
+            <div class="dot" data-index="1" role="tab" aria-selected="false" aria-label="Slide 2"></div>
+            <div class="dot" data-index="2" role="tab" aria-selected="false" aria-label="Slide 3"></div>
+            <div class="dot" data-index="3" role="tab" aria-selected="false" aria-label="Slide 4"></div>
+            <div class="dot" data-index="4" role="tab" aria-selected="false" aria-label="Slide 5"></div>
+        </div>
+    </div>
+<!-- Analytics Section -->
+<section class="analysis" style="background:#ffffff; padding:60px 20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:40px;">
+    <img src="{{ url_for('static', filename='image11.avif') }}" alt="YouTube Banner" style="width:600px; max-width:30%; border-radius:15px; box-shadow:0 8px 20px rgba(0,0,0,0.1);">
+    <div class="analysis-text" style="max-width:520px;">
+        <h2 style="color:#E53935; font-size:28px; margin-bottom:15px;">In-Depth Analytics</h2>
+        <p style="font-size:16px; line-height:1.6; color:#444;">
+			Unlock detailed insights into your video performance! Analyze predicted views and likes, discover the most effective hashtags, explore engagement heatmaps, compare model predictions, and gain a complete breakdown of audience interaction—all in one powerful analytics dashboard.        </p>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="how" style="padding:60px 20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:40px; background:#ffffff;">
+    <img src="{{ url_for('static', filename='image16.jpg') }}" alt="YouTube Banner" style="width:380px; max-width:100%; border-radius:15px; box-shadow:0 8px 20px rgba(0,0,0,0.1);">
+    <div class="how-text" style="max-width:500px;">
+        <h2 style="color:#E53935; font-size:28px; margin-bottom:15px;">How It Works</h2>
+        <ul style="font-size:16px; line-height:1.8; color:#444; padding-left:20px;">
+            <li>Provide inputs like Subscribers, Upload Time, Upload Day, and Comments.</li>
+            <li>The machine learning model processes your data to predict views and likes.</li>
+            <li>Receive smart hashtag suggestions to maximize your video visibility.</li>
+            <li>Get instant analytics and actionable recommendations to improve engagement.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="about" style="padding:60px 20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:40px; background:#ffffff;">
+    <img src="{{ url_for('static', filename='image12.jpg') }}" alt="YouTube Banner" style="width:520px; max-width:30%; border-radius:15px; box-shadow:0 8px 20px rgba(0,0,0,0.1);">
+    <div class="about-text" style="max-width:520px;">
+        <h2 style="color:#E53935; font-size:28px; margin-bottom:15px;">About This Project</h2>
+        <p style="font-size:16px; line-height:1.6; color:#444;">
+            The YouTube Popularity Prediction Project leverages advanced Python machine learning models integrated seamlessly with a Flask backend and a user-friendly HTML frontend. Our platform helps creators understand key factors that influence video performance and offers actionable insights to boost engagement through intelligent predictions and tag recommendations.
+        </p>
+    </div>
+</section>
+
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2026 YouTube Popularity Prediction - A Machine Learning Driven Approach</p>
+    </footer>
+	
+<button onclick="window.scrollTo({top:0, behavior:'smooth'});" style="position:fixed; bottom:20px; right:20px; background:#E53935; color:white; border:none; padding:12px; border-radius:50%; cursor:pointer; font-size:18px;">⬆</button>
+
+
+    <!-- Slider JS (unchanged) -->
+    <script>
+        (function () {
+            const slider = document.getElementById('imageSlider');
+            const dots = Array.from(document.querySelectorAll('.dot'));
+            let slideCount = slider.children.length;
+            let isTicking = false;
+
+            function updateActiveDot() {
+                const slideWidth = slider.clientWidth;
+                const rawIndex = slider.scrollLeft / slideWidth;
+                const index = Math.round(rawIndex);
+                dots.forEach((d, i) => {
+                    d.classList.toggle('active', i === index);
+                    d.setAttribute('aria-selected', i === index ? 'true' : 'false');
+                });
+            }
+
+            slider.addEventListener('scroll', function () {
+                if (!isTicking) {
+                    window.requestAnimationFrame(function () {
+                        updateActiveDot();
+                        isTicking = false;
+                    });
+                    isTicking = true;
+                }
+            }, { passive: true });
+
+            dots.forEach(d => {
+                d.addEventListener('click', () => {
+                    const idx = Number(d.dataset.index);
+                    const slideWidth = slider.clientWidth;
+                    slider.scrollTo({ left: idx * slideWidth, behavior: 'smooth' });
+                });
+            });
+
+            window.addEventListener('resize', () => {
+                updateActiveDot();
+                const activeIdx = dots.findIndex(d => d.classList.contains('active'));
+                if (activeIdx >= 0) {
+                    slider.scrollTo({ left: activeIdx * slider.clientWidth });
+                }
+            });
+
+            updateActiveDot();
+        })();
+    </script>
+	{% include "bot.html" %}
+
+</body>
+</html>

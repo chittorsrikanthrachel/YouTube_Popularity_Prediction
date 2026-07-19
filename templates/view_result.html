@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Predicted Views Result</title>
+
+  <style>
+    :root{
+      --accent:#E53935;
+      --card-bg: rgba(255,255,255,0.90);
+      --card-radius: 14px;
+      --shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
+
+   body{
+	margin:0;
+	min-height:100vh;
+	font-family: Inter, Arial;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	padding:20px;
+	background-color:#ffffff;
+	position: relative;   /* IMPORTANT */
+	}
+	
+	body::before{
+	content:"";
+	position:absolute;
+	inset:0;
+	background-image: url('/static/image22.png');
+	background-repeat: repeat;
+	background-size: auto;
+	opacity: 0.80;     /* 🔽 adjust this */
+	z-index:-1;
+	}
+
+    .card{
+      width:100%;
+      max-width:600px;
+      background: var(--card-bg);
+      border-radius: var(--card-radius);
+      box-shadow: var(--shadow);
+      padding:32px 24px;
+      text-align:center;
+      backdrop-filter: blur(4px);
+    }
+
+    .main-heading{
+      font-size:24px;
+      font-weight:900;
+      color:var(--accent);
+      text-align:center;
+      margin-bottom:24px;
+      letter-spacing:1px;
+    }
+
+    .result-box{
+	  background:#E53935;        /* keep red */
+	  border-radius:16px;
+	  padding:24px;              /* same as Likes box */
+	  margin-bottom:28px;        /* same as Likes box */
+	  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+	  text-align:center;         /* center content */
+	}
+
+	
+	.result-label{
+	  font-size:25px;            /* slightly smaller for compact look */
+	  font-weight:700;
+	  color:#fff;                /* keep white */
+	  margin-bottom:8px;
+	}
+
+	.prediction{
+	  font-size:36px;            /* slightly smaller number */
+	  font-weight:900;
+	  color:#fff;                /* keep white */
+	}
+
+    .chart-container{
+      grid-column: 1 / -1;
+      margin-top:20px;
+      overflow:auto;
+    }
+
+    .back-link{
+      font-size:14px;
+      font-weight:700;
+      color:#000;
+      text-decoration:none;
+      border-bottom:2px solid transparent;
+      transition:0.2s;
+    }
+
+    .back-link:hover{
+      border-bottom:2px solid #000;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+
+    <div class="main-heading">
+      👁️ YOUTUBE VIEWS PREDICTION
+    </div>
+
+    <div class="result-box">
+      <div class="result-label">PREDICTED VIEWS</div>
+      <div class="prediction">{{ "{:,}".format(result) }}</div>
+    </div>
+
+    <div class="chart-container">
+      {{ fig_html | safe }}
+    </div>
+
+  </div>
+
+</body>
+</html>

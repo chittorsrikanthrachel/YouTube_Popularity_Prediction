@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>YouTube Views Prediction</title>
+
+  <style>
+    :root{
+      --accent:#E53935;
+      --card-bg: rgba(255,255,255,0.90);
+      --card-radius: 14px;
+      --shadow: 0 8px 30px rgba(0,0,0,0.12);
+      --label-color: #222;
+      --input-border: #ccc;
+    }
+
+	body{
+	margin:0;
+	min-height:100vh;
+	font-family: Inter, Arial;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	padding:20px;
+	background-color:#ffffff;
+	position: relative;   /* IMPORTANT */
+	}
+	
+	body::before{
+	content:"";
+	position:absolute;
+	inset:0;
+	background-image: url('/static/image22.png');
+	background-repeat: repeat;
+	background-size: auto;
+	opacity: 0.80;     /* 🔽 adjust this */
+	z-index:-1;
+	}
+
+
+
+    .card{
+      width:100%;
+      max-width:700px;
+      background: var(--card-bg);
+      border-radius: var(--card-radius);
+      box-shadow: var(--shadow);
+      padding:24px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:18px;
+      backdrop-filter: blur(4px);
+    }
+
+    /* heading */
+    .main-heading{
+      grid-column: 1 / -1;
+      font-size:22px;
+      font-weight:900;
+      color:#E53935;
+      text-align:center;
+      margin-bottom:4px;
+      letter-spacing:1px;
+    }
+
+    label{
+      display:block;
+      font-size:12px;
+      font-weight:700;
+      color:var(--label-color);
+      margin-bottom:4px;
+      letter-spacing:0.5px;
+    }
+
+    input[type="number"],
+    select{
+      width:100%;
+      padding:10px 12px;
+      border-radius:18px;
+      border:1px solid var(--input-border);
+      font-size:13px;
+      box-sizing:border-box;
+      background:white;
+    }
+
+    .field{ margin-bottom:8px; }
+    .full-row{ grid-column: 1 / -1; }
+
+    .actions{
+      grid-column: 1 / -1;
+      text-align:center;
+      margin-top:10px;
+    }
+
+    button.primary{
+      background:var(--accent);
+      color:white;
+      border:0;
+      cursor:pointer;
+      font-weight:700;
+      font-size:16px;
+      padding:14px 28px;
+      border-radius:12px;
+      box-shadow: 0 6px 18px rgba(255,0,0,0.2);
+    }
+
+    @media (max-width:720px){
+      .card{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Form submitting directly to Flask -->
+  <form class="card" id="yt-form" method="POST" action="{{ url_for('predict_views_route') }}">
+    
+    <div class="main-heading">
+       <h2>👁️ YOUTUBE VIEWS PREDICTION</h2>
+    </div>
+
+    <div class="field">
+      <label for="duration">DURATION (SECONDS)</label>
+      <input id="duration" name="duration" type="number" min="0" required>
+    </div>
+
+    <div class="field">
+      <label for="likes">LAST VIDEO LIKES</label>
+      <input id="likes" name="likes" type="number" min="0" required>
+    </div>
+
+    <div class="field">
+      <label for="dislikes">LAST VIDEO DISLIKES</label>
+      <input id="dislikes" name="dislikes" type="number" min="0" required>
+    </div>
+
+    <div class="field">
+      <label for="comment_count">LAST VIDEO COMMENT COUNT</label>
+      <input id="comment_count" name="comment_count" type="number" min="0" required>
+    </div>
+
+    <div class="field">
+		<label for="category_id">CATEGORY</label>
+		<select id="category_id" name="category_id" required>
+			<option value="">-- Select Category --</option>
+
+			<option value="1">Film & Animation</option>
+			<option value="2">Autos & Vehicles</option>
+			<option value="10">Music</option>
+			<option value="15">Pets & Animals</option>
+			<option value="17">Sports</option>
+			<option value="18">Short Movies</option>
+			<option value="19">Travel & Events</option>
+			<option value="20">Gaming</option>
+			<option value="21">Videoblogging</option>
+			<option value="22">People & Blogs</option>
+			<option value="23">Comedy</option>
+			<option value="24">Entertainment</option>
+			<option value="25">News & Politics</option>
+			<option value="26">Howto & Style</option>
+			<option value="27">Education</option>
+			<option value="28">Science & Technology</option>
+			<option value="29">Nonprofits & Activism</option>
+			<option value="30">Movies</option>
+			<option value="31">Anime/Animation</option>
+			<option value="32">Action/Adventure</option>
+			<option value="33">Classics</option>
+			<option value="34">Comedy (alternate)</option>
+			<option value="35">Documentary</option>
+			<option value="36">Drama</option>
+			<option value="37">Family</option>
+			<option value="38">Foreign</option>
+			<option value="39">Horror</option>
+			<option value="40">Sci-Fi/Fantasy</option>
+			<option value="41">Thriller</option>
+			<option value="42">Shorts</option>
+			<option value="43">Shows</option>
+			<option value="44">Trailers</option>
+
+		</select>
+	</div>
+
+
+
+    <div class="field">
+      <label for="publish_day">PUBLISH DAY (0=Sun...6=Sat)</label>
+      <input id="publish_day" name="publish_day" type="number" min="0" max="6" required>
+    </div>
+
+    <div class="field">
+      <label for="publish_month">PUBLISH MONTH (1–12)</label>
+      <input id="publish_month" name="publish_month" type="number" min="1" max="12" required>
+    </div>
+
+    <div class="field">
+      <label for="publish_hour">PUBLISH HOUR (0–23)</label>
+      <input id="publish_hour" name="publish_hour" type="number" min="0" max="23" required>
+    </div>
+
+    <div class="field">
+      <label for="trending_day">TRENDING DAY</label>
+      <input id="trending_day" name="trending_day" type="number" min="0" max="6">
+    </div>
+
+    <div class="field">
+      <label for="trending_month">TRENDING MONTH</label>
+      <input id="trending_month" name="trending_month" type="number" min="0" max="12">
+    </div>
+
+    <div class="field">
+      <label for="subscribers">SUBSCRIBERS</label>
+      <input id="subscribers" name="subscribers" type="number" min="100000" max="500000" required>
+    </div>
+
+    <div class="field">
+      <label for="total_videos">TOTAL VIDEOS</label>
+      <input id="total_videos" name="total_videos" type="number" min="0" required>
+    </div>
+
+    <div class="field full-row">
+      <label for="model">CHOOSE PREDICTION METHOD</label>
+      <select id="model" name="model" required>
+        <option value="">-- Select Prediction Method --</option>
+		<option value="rf">⭐ Best for most users(Recommended)</option>
+        <option value="gb">🔁 Stable and consistent results</option>
+        <option value="lgb">⚡ Fast results</option>
+        <option value="xgb">🎯 Very accurate results</option>
+      </select>
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="primary">PREDICT VIEWS</button>
+    </div>
+
+  </form>
+  
+  
+
+</body>
+</html>

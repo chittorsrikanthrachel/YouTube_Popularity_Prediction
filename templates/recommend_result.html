@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Recommended Hashtags</title>
+
+  <style>
+    :root{
+      --card-bg: rgba(255,255,255,0.90);
+      --card-radius: 14px;
+      --shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family: Inter, Arial;
+      background-image: url('/static/image27.png');
+      background-repeat: repeat;
+      background-size: auto;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      background-color:#ffffff;
+    }
+
+    .card{
+      width:100%;
+      max-width:700px;
+      background: var(--card-bg);
+      border-radius: var(--card-radius);
+      box-shadow: var(--shadow);
+      padding:28px 24px;
+      text-align:center;
+      backdrop-filter: blur(4px);
+    }
+
+    /* Heading */
+    .main-heading{
+      font-size:24px;
+      font-weight:900;
+      color:#007BFF;
+      letter-spacing:1px;
+      margin-bottom:14px;
+    }
+
+    .subtitle{
+      font-size:18px;
+      font-weight:600;
+      color:#333;
+      margin-bottom:20px;
+    }
+
+    /* Hashtag container */
+    .tags-box{
+      background:#f8f9fa;
+      border-radius:14px;
+      padding:18px;
+      margin-bottom:26px;
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:10px;
+    }
+
+    /* Individual hashtag chip */
+    .tag{
+      background:#007BFF;
+      color:#fff;
+      padding:8px 14px;
+      border-radius:20px;
+      font-size:14px;
+      font-weight:700;
+      box-shadow: 0 4px 10px rgba(0,123,255,0.35);
+      white-space:nowrap;
+    }
+
+    /* Plain back link */
+    .back-link{
+      font-size:14px;
+      font-weight:700;
+      color:#000;
+      text-decoration:none;
+      border-bottom:2px solid transparent;
+      transition:0.2s;
+    }
+
+    .back-link:hover{
+      border-bottom:2px solid #000;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+
+    <div class="main-heading">
+      #️⃣ HASHTAGS RECOMMENDATION
+    </div>
+
+    <div class="subtitle">
+      Recommended Hashtags for <strong>"{{ title }}"</strong>
+    </div>
+
+    <div class="tags-box">
+      {% for tag in tags %}
+        <div class="tag">#{{ tag }}</div>
+      {% endfor %}
+    </div>
+
+  </div>
+
+</body>
+</html>

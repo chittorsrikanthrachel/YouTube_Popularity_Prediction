@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}YouTube Popularity Prediction{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- GLOBAL CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    {% block head_extra %}{% endblock %}
+</head>
+<body>
+
+    <!-- PAGE CONTENT -->
+    {% block content %}{% endblock %}
+
+    <!-- 🔥 GLOBAL CHATBOT (ALL PAGES) -->
+    {% include "bot.html" %}
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

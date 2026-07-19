@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>YouTube Likes Prediction</title>
+
+  <style>
+    :root{
+      --card-bg: rgba(255,255,255,0.90);
+      --card-radius: 14px;
+      --shadow: 0 8px 30px rgba(0,0,0,0.12);
+      --label-color: #222;
+      --input-border: #ccc;
+    }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family: Inter, Arial;
+      background-image: url('/static/image26.png');
+      background-repeat: repeat;
+      background-size: auto;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+	  overflow:hidden;
+      padding:20px;
+      background-color:#ffffff;
+	  justify-content:center;
+	  padding-top:3px;
+    }
+
+    .card{
+      width:100%;
+      max-width:700px;
+      background: var(--card-bg);
+      border-radius: var(--card-radius);
+      box-shadow: var(--shadow);
+      padding:24px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:18px;
+      backdrop-filter: blur(4px);
+    }
+
+    /* Heading with black outline */
+    .main-heading{
+      grid-column: 1 / -1;
+      font-size:24px;
+      font-weight:900;
+      color: #FFC300; /* bright yellow */
+      text-align:center;
+      margin-bottom:6px;
+      letter-spacing:1px;
+      text-shadow:
+        -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+
+    }
+
+    label{
+      display:block;
+      font-size:12px;
+      font-weight:700;
+      color:var(--label-color);
+      margin-bottom:4px;
+      letter-spacing:0.5px;
+    }
+
+    input[type="number"],
+    select{
+      width:100%;
+      padding:10px 12px;
+      border-radius:18px;      
+      border:1px solid var(--input-border);
+      font-size:13px;
+      box-sizing:border-box;
+      background:white;
+    }
+
+    .field{ margin-bottom:8px; }
+    .full-row{ grid-column: 1 / -1; }
+
+    .actions{
+      grid-column: 1 / -1;
+      text-align:center;
+      margin-top:10px;
+    }
+
+    /* Bright yellow Predict button */
+    button.primary{
+      background:#FFD700;  
+      color:#000;          
+      border:0;
+      cursor:pointer;
+      font-weight:700;
+      font-size:16px;
+      padding:14px 28px;
+      border-radius:12px;
+      box-shadow: 0 6px 18px rgba(255,215,0,0.4); 
+      transition:0.2s;
+    }
+
+    button.primary:hover{
+      background:#FFC107; 
+      box-shadow: 0 6px 18px rgba(255,193,7,0.5);
+    }
+
+    @media (max-width:720px){
+      .card{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <form class="card" id="likes-form" action="/predict_likes" method="post">
+    
+    <div class="main-heading">
+       <h2>👍 YOUTUBE LIKES PREDICTION</h2>
+    </div>
+
+    <div class="field">
+      <label for="views">VIEWS IN 1 HOUR OF UPLOAD</label>
+      <input id="views" name="views" type="number" min="0" required>
+    </div>
+
+    <div class="field">
+      <label for="dislikes">DISLIKES IN 1 HOUR OF UPLOAD</label>
+      <input id="dislikes" name="dislikes" type="number" min="0" required>
+    </div>
+
+    <div class="field">
+      <label for="comment_count">COMMENT COUNT IN 1 HOUR OF UPLOAD</label>
+      <input id="comment_count" name="comment_count" type="number" min="0" required>
+    </div>
+
+    <div class="field">
+		<label for="category_id">CATEGORY</label>
+		<select id="category_id" name="category_id" required>
+			<option value="">-- Select Category --</option>
+
+			<option value="1">Film & Animation</option>
+			<option value="2">Autos & Vehicles</option>
+			<option value="10">Music</option>
+			<option value="15">Pets & Animals</option>
+			<option value="17">Sports</option>
+			<option value="18">Short Movies</option>
+			<option value="19">Travel & Events</option>
+			<option value="20">Gaming</option>
+			<option value="21">Videoblogging</option>
+			<option value="22">People & Blogs</option>
+			<option value="23">Comedy</option>
+			<option value="24">Entertainment</option>
+			<option value="25">News & Politics</option>
+			<option value="26">Howto & Style</option>
+			<option value="27">Education</option>
+			<option value="28">Science & Technology</option>
+			<option value="29">Nonprofits & Activism</option>
+			<option value="30">Movies</option>
+			<option value="31">Anime/Animation</option>
+			<option value="32">Action/Adventure</option>
+			<option value="33">Classics</option>
+			<option value="34">Comedy (alternate)</option>
+			<option value="35">Documentary</option>
+			<option value="36">Drama</option>
+			<option value="37">Family</option>
+			<option value="38">Foreign</option>
+			<option value="39">Horror</option>
+			<option value="40">Sci-Fi/Fantasy</option>
+			<option value="41">Thriller</option>
+			<option value="42">Shorts</option>
+			<option value="43">Shows</option>
+			<option value="44">Trailers</option>
+
+		</select>
+	</div>
+
+    <div class="field">
+      <label for="No_tags">NUMBER OF TAGS</label>
+      <input id="No_tags" name="No_tags" type="number" min="0" required>
+    </div>
+
+    <div class="field">
+      <label for="desc_len">DESCRIPTION LENGTH</label>
+      <input id="desc_len" name="desc_len" type="number" min="0" required>
+    </div>
+
+    <div class="field">
+      <label for="len_title">TITLE LENGTH</label>
+      <input id="len_title" name="len_title" type="number" min="0" required>
+    </div>
+
+    <div class="field">
+      <label for="publish_weekday">PUBLISH WEEKDAY (0=Sun … 6=Sat)</label>
+      <input id="publish_weekday" name="publish_weekday" type="number" min="0" max="6" required>
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="primary">PREDICT LIKES</button>
+    </div>
+
+  </form>
+
+<script>
+  document.getElementById('likes-form').addEventListener('submit', function(){
+    console.log("Form submitted to Flask");
+    // No e.preventDefault() — lets Flask handle /predict_likes
+  });
+</script>
+
+
+</body>
+</html>
