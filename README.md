@@ -1,29 +1,28 @@
-# YouTube Popularity Prediction – A Machine Learning Driven Approach
+# 🎥 YouTube Popularity Prediction – A Machine Learning Driven Approach
 
 A web-based machine learning application that predicts the popularity of YouTube videos by estimating video views and likes, recommending relevant hashtags, and providing analytical insights to help content creators make data-driven decisions.
 
-
 ---
 
-## Project Overview
+## 🚀 Project Overview
 
 With the increasing competition among YouTube creators, predicting video performance before publishing has become increasingly important. This project combines machine learning models, analytics, and a web interface to help creators estimate video performance and optimize their content strategy.
 
 The application provides:
 
-- Video Views Prediction
-- Video Likes Prediction
-- Hashtag Recommendation
-- Insights & Visualizations
-- Interactive Chatbot Interface
+- 📈 Video Views Prediction
+- ❤️ Video Likes Prediction
+- 🏷️ Hashtag Recommendation
+- 📊 Insights & Visualizations
+- 🤖 Interactive Chatbot Interface
 
 The primary goal is to assist YouTube creators in improving video visibility, audience engagement, and overall channel performance using machine learning and data analytics.
 
 ---
 
-# Features
+## ✨ Features
 
-## 1. Video Views Prediction
+### 📈 Video Views Prediction
 
 Predicts the expected number of views using multiple regression models based on:
 
@@ -42,7 +41,7 @@ Users can choose models through user-friendly labels based on accuracy, speed, a
 
 ---
 
-## 2. Video Likes Prediction
+### ❤️ Video Likes Prediction
 
 Predicts the expected number of likes using a Random Forest Regressor trained on historical engagement data.
 
@@ -59,7 +58,7 @@ Input features include:
 
 ---
 
-## 3. Hashtag Recommendation
+### 🏷️ Hashtag Recommendation
 
 Suggests relevant hashtags using a dictionary-based recommendation approach.
 
@@ -68,11 +67,11 @@ Recommendations are generated using:
 - Video title
 - Video category
 
-The goal is to improve content discoverability on YouTube. 
+The goal is to improve content discoverability on YouTube.
 
 ---
 
-## 4. Insights & Analytics
+### 📊 Insights & Analytics
 
 After predicting video views, users can access analytical dashboards including:
 
@@ -82,10 +81,11 @@ After predicting video views, users can access analytical dashboards including:
 - Model comparison
 - Engagement breakdown
 
-These insights help creators optimize publishing strategies. 
+These insights help creators optimize publishing strategies.
+
 ---
 
-## 5. Interactive Chatbot
+### 🤖 Interactive Chatbot
 
 The application includes a chatbot that supports:
 
@@ -98,13 +98,13 @@ The chatbot helps users navigate the application and understand available featur
 
 ---
 
-# Technologies Used
+## 🛠️ Technologies Used
 
-## Programming Language
+### 💻 Programming Language
 
 - Python
 
-## Machine Learning
+### 🤖 Machine Learning
 
 - Scikit-learn
 - XGBoost
@@ -112,38 +112,38 @@ The chatbot helps users navigate the application and understand available featur
 - Random Forest
 - Gradient Boosting Machine
 
-## Backend
+### ⚙️ Backend
 
 - Flask
 
-## Frontend
+### 🎨 Frontend
 
 - HTML
 - CSS
 - JavaScript
 
-## Data Processing
+### 📂 Data Processing
 
 - Pandas
 - NumPy
 
-## Data Visualization
+### 📉 Data Visualization
 
 - Matplotlib
 - Seaborn
 
-## Development Tools
+### 🧰 Development Tools
 
 - Jupyter Notebook
 - Python IDLE
 
 ---
 
-# Dataset
+## 📊 Dataset
 
 The project uses two datasets collected using the YouTube Data API.
 
-### Views Dataset
+### 📈 Views Dataset
 
 Includes features such as:
 
@@ -157,11 +157,11 @@ Includes features such as:
 - Past dislikes
 - Past comments
 
-Target variable:
+**Target Variable**
 
 - Video Views
 
-### Likes Dataset
+### ❤️ Likes Dataset
 
 Includes features such as:
 
@@ -174,7 +174,7 @@ Includes features such as:
 - Title length
 - Publish day
 
-Target variable:
+**Target Variable**
 
 - Video Likes
 
@@ -182,34 +182,7 @@ Each dataset contains approximately 5,000 records and is managed using an SQL da
 
 ---
 
-# Project Structure
-
-```
-├── app.py
-├── templates/
-│   ├── index.html
-│   ├── view_form1.html
-│   ├── like_form1.html
-│   ├── recommend_form1.html
-│   ├── show_insights_form1.html
-│   ├── view_result.html
-│   ├── like_result.html
-│   ├── recommend_result.html
-│   └── bot.html
-├── static/
-│   ├── css/
-│   ├── js/
-│   └── images/
-├── models/
-├── datasets/
-└── README.md
-```
-
-*(Folder names may vary slightly depending on your project structure.)*
-
----
-
-# Machine Learning Models
+## 🧠 Machine Learning Models
 
 ### Views Prediction
 
@@ -222,10 +195,9 @@ Each dataset contains approximately 5,000 records and is managed using an SQL da
 
 - Random Forest Regressor
 
-
 ---
 
-# Future Scope
+## 🔮 Future Scope
 
 Possible future improvements include:
 
@@ -237,10 +209,9 @@ Possible future improvements include:
 - Enhanced chatbot capabilities
 - Real-time analytics
 
-
 ---
 
-# Limitations
+## ⚠️ Limitations
 
 - Limited dataset size
 - Designed primarily for channels with 100K–500K subscribers
@@ -248,16 +219,16 @@ Possible future improvements include:
 - Dictionary-based hashtag recommendation
 - Limited feature engineering
 
-
 ---
 
-# Conclusion
+## 📌 Conclusion
 
 This project demonstrates how machine learning and data analytics can be combined to assist YouTube creators in predicting video performance, generating meaningful insights, recommending hashtags, and supporting data-driven content strategies through an integrated web application.
+
 ---
 
-## Author
+## 👩‍💻 Author
 
-**C.S.Rachel**
+**C. S. Rachel**
 
-M.Sc. Data Science
+*M.Sc. Data Science*
