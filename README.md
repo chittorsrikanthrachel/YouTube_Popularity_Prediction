@@ -229,6 +229,6 @@ This project demonstrates how machine learning and data analytics can be combine
 
 ## 👩‍💻 Author
 
-**C. S. Rachel**
+**C.S.Rachel**
 
 *M.Sc. Data Science*
